@@ -11,7 +11,7 @@ import Foundation
 
 class ResponseAPI {
     // get data from json file
-    public func getDatas(fileName: String,completion: @escaping (Result<[Menu],NetworkError>)->Void) {
+    public func getDatas(fileName: String,completion: (Result<[Menu],NetworkError>)->Void) {
         
         if let url = Bundle.main.url(forResource: "\(fileName)", withExtension: "json") {
             do {

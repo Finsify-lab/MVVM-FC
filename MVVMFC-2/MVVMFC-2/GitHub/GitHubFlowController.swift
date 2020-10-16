@@ -10,14 +10,16 @@ import UIKit
 
 class GitHubFlowController {
     var navigationController : UINavigationController!
+    var viewController: GitHubViewController!
     var dependency: Dependency!
     
-    init(navigationController: UINavigationController,dependency: Dependency) {
+    init(navigationController: UINavigationController,viewController: GitHubViewController,dependency: Dependency) {
         self.navigationController = navigationController
+        self.viewController = viewController
         self.dependency = dependency
     }
     
-    func showDetail(url: String) {
-        DetailFactory.pushIn(navigationController: navigationController, dependence: dependency, url: url)
+    func showDetail() {
+        DetailFactory.pushIn(navigationController: navigationController, dependence: dependency, parentViewModel: viewController.viewModel)
     }
 }

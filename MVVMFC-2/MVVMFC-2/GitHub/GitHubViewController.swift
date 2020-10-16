@@ -78,7 +78,8 @@ extension GitHubViewController: UITableViewDelegate,UITableViewDataSource {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let item = viewModel.itemResults[indexPath.row]
-        viewModel.selected(url: item.url!)
+        viewModel.selected()
+        viewModel.url = item.url
         searchBar .resignFirstResponder()
     }
     

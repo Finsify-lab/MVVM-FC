@@ -6,15 +6,20 @@
 //  Copyright © 2020 Lê Hoàng Sinh. All rights reserved.
 //
 
-protocol GitHubViewModelType {
+protocol SubGitHubViewModelDatasource: class {
+    func updateSubView()->String?
+}
+
+protocol GitHubViewModelType:SubGitHubViewModelDatasource {
     
     var  requestClosure : ((Bool) -> Void)? { get set }
     var itemResults : [GitHubItem] {get set }
     var ownerResults : [Owner]{ get set}
-    var urlStr: String! { get set }
+    var datasource: SubMainViewModelDatasource? {get}
+    var url:String? {set get}
     
     func getItem(key: String)
-    func selected(url: String)
+    func selected()
     
 }
 
@@ -23,12 +28,13 @@ class GitHubViewModel: GitHubViewModelType {
     var flowController: GitHubFlowController!
     var swapi: ResponseAPI!
     
-    var urlStr: String!
+    weak var datasource: SubMainViewModelDatasource?
     var requestClosure : ((Bool) -> Void)?
     
     var itemResults = [GitHubItem]()
     var ownerResults = [Owner]()
     
+    var url: String?
     
     init(flowController: GitHubFlowController,swapi: ResponseAPI) {
         self.flowController = flowController
@@ -36,8 +42,8 @@ class GitHubViewModel: GitHubViewModelType {
     }
     
     func getItem(key: String) {
-        
-        let url = "\(urlStr ?? "")q=\(key)"
+        let urlDatasource = datasource?.updateSubView(identifier: .gitHub )
+        let url = "\(urlDatasource ?? "")q=\(key)"
     swapi.getGitHubItem(urlStr: url) {[weak self] (result) in
             switch result {
             case .success(let items):
@@ -57,8 +63,16 @@ class GitHubViewModel: GitHubViewModelType {
         }
     }
     
-    func selected(url: String) {
-        flowController.showDetail(url: url)
+    func selected() {
+        flowController.showDetail()
+    }
+    
+    
+}
+
+extension GitHubViewModel: SubGitHubViewModelDatasource {
+    func updateSubView() -> String? {
+        return url
     }
     
     

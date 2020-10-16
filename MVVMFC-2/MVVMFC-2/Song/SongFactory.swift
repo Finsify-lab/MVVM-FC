@@ -9,16 +9,17 @@
 import UIKit
 
 class SongFactory {
-    static func createIn(navigationController: UINavigationController,dependency: Dependency ,url: String){
+    static func createIn(navigationController: UINavigationController,dependency: Dependency , datasource: SubMainViewModelDatasource?,parentViewModel: MainViewModelType?){
         let viewController = SongViewController()
         viewController.title = "SongView"
         
         let flowController = SongViewFlowController(navigationController: navigationController, viewController: viewController, dependency: dependency)
         
         let viewModel = SongViewModel(flowController: flowController, swapi: dependency.swapi)
+        viewModel.datasource = parentViewModel
         
         viewController.viewModel = viewModel
-        viewModel.url = url
+        
         
         navigationController.pushViewController(viewController, animated: true)
     }

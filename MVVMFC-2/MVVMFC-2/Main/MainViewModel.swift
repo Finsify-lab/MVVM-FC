@@ -8,7 +8,11 @@
 
 import Foundation
 
-protocol MainViewModelType {
+protocol SubMainViewModelDatasource: class {
+    func updateSubView(identifier: Identifier)->String?
+}
+
+protocol MainViewModelType: SubMainViewModelDatasource {
     
     
     var items: [Menu] { get set } // mảng chứa dữ liệu trả về
@@ -32,6 +36,9 @@ class MainViewModel: MainViewModelType {
     
     var itemClosure: ((Bool)->Void)?
     
+    var datasource: SubMainViewModelDatasource?
+    
+    
     init(flowController: MainFlowController,swapi: ResponseAPI) {
         self.flowController = flowController
         self.swapi = swapi
@@ -42,11 +49,12 @@ class MainViewModel: MainViewModelType {
         switch item.identifier {
         
         case .gitHub:
-            flowController.showGitHub(url:item.url)
+            
+            flowController.showGitHub(datasouce: datasource)
             print(item.url)
         case .song:
             print(item.url)
-            flowController.showSong(url: item.url)
+            flowController.showSong(datasouce: datasource)
         case .invalid:
             break
         case .new:
@@ -90,4 +98,21 @@ class MainViewModel: MainViewModelType {
     }
     
         
+}
+
+
+extension MainViewModel:SubMainViewModelDatasource {
+    
+    func updateSubView(identifier: Identifier) -> String? {
+        switch identifier {
+        case .gitHub:
+            return "https://api.github.com/search/repositories?"
+        case .song:
+            return "https://api.musixmatch.com/ws/1.1/matcher.track.get?format=json&callback=callback&q_track=bad%20liar&apikey=4956530bff785fed72839e6a88be226d"
+        default:
+            return nil
+        }
+    }
+    
+    
 }

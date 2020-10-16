@@ -9,7 +9,7 @@
 import UIKit
 
 class InvalidFactory {
-    static func createIn(navigationController: UINavigationController,dependency: Dependency ,url: String){
+    static func createIn(navigationController: UINavigationController,dependency: Dependency ,datasource: SubMainViewModelDatasource?){
         let viewController = InvalidViewController()
         viewController.title = "InvalidView"
         

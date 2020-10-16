@@ -15,6 +15,11 @@ struct Menu: Codable {
     var url: String
 }
 
+enum UrlStr: String,Codable {
+    case gitHub = "https://api.github.com/search/repositories?"
+    case song = "https://api.musixmatch.com/ws/1.1/matcher.track.get?format=json&callback=callback&q_track=bad%20liar&apikey=4956530bff785fed72839e6a88be226d"
+}
+
 enum Identifier: String,Codable {
     case gitHub = "gitHub"
     case song = "song"

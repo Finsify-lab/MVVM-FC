@@ -12,7 +12,7 @@ protocol DetailViewModelType {
     
     var imageClosure: ((Data)->Void)? {get set}
     
-    var url: String! {get set}
+    
     
     var requestClosure : ((Bool) -> Void)? {get set}
     var itemResults: GitHubItem {get set}
@@ -33,7 +33,8 @@ class DetailViewModel:DetailViewModelType {
     
     var imageClosure: ((Data)->Void)?
     
-    var url: String!
+    var deepLinkUrl:String?
+    var datasource: SubGitHubViewModelDatasource?
     
     var requestClosure : ((Bool) -> Void)?
     
@@ -47,6 +48,10 @@ class DetailViewModel:DetailViewModelType {
     }
 
     func getItem() {
+        
+        guard let url = datasource?.updateSubView()  else {
+            return
+        }
         swapi.getGitHubOneItem(urlStr: url) {[weak self] (result) in
             switch result {
             case .success(let(items,owner)):

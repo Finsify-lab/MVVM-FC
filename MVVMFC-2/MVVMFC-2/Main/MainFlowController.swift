@@ -19,14 +19,14 @@ class MainFlowController {
         self.dependency = dependency
     }
     //
-    func showGitHub(url: String) {
-        GitHubFactory.createIn(navigationController: navigationController,dependency: dependency, url: url)
+    func showGitHub(datasouce: SubMainViewModelDatasource?) {
+        GitHubFactory.createIn(navigationController: navigationController,dependency: dependency, datasource: datasouce, parentViewModel: viewController.viewModel)
     }
-    func showSong(url: String) {
-        SongFactory.createIn(navigationController: navigationController, dependency: dependency, url: url)
+    func showSong(datasouce: SubMainViewModelDatasource?) {
+        SongFactory.createIn(navigationController: navigationController, dependency: dependency, datasource: datasouce,parentViewModel: viewController.viewModel)
     }
     
     func showError() {
-        InvalidFactory.createIn(navigationController: navigationController, dependency: dependency, url: "")
+        InvalidFactory.createIn(navigationController: navigationController, dependency: dependency,datasource: nil)
     }
 }

@@ -31,7 +31,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let deepLink = DeepLinkType.github
             deepLink.handleDeepLinkType(url: url) {[weak self] (url) in
                 print(url)
-                DetailFactory.pushIn(navigationController: (self?.navigationController)!, dependence: (self?.dependency)!, url: url)
+                DetailFactory.pushIn(navigationController: (self?.navigationController)!, dependence: (self?.dependency)!, parentViewModel: nil)
             }
         }
         
@@ -85,14 +85,14 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
                 let deepLink = DeepLinkType.song
                 deepLink.handleDeepLinkType(url: i.url) {[weak self] (url) in
                     if let safeUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                        SongFactory.createIn(navigationController: (self?.navigationController)!, dependency: (self?.dependency)!, url: safeUrl)
+                        SongFactory.createIn(navigationController: (self?.navigationController)!, dependency: (self?.dependency)!, datasource: nil, parentViewModel: nil)
                     }
                 }
             }else {
                 let deepLink = DeepLinkType.github
                 deepLink.handleDeepLinkType(url: i.url) {[weak self] (url) in
                     if let safeUrl = url.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) {
-                    DetailFactory.pushIn(navigationController: (self?.navigationController)!, dependence: (self?.dependency)!, url: safeUrl)
+                        DetailFactory.pushIn(navigationController: (self?.navigationController)!, dependence: (self?.dependency)!, parentViewModel: nil)
                     }
                 }
                 

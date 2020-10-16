@@ -9,7 +9,7 @@
 import UIKit
 
 class DetailFactory {
-    static func pushIn(navigationController: UINavigationController,dependence: Dependency ,url: String) {
+    static func pushIn(navigationController: UINavigationController,dependence: Dependency, parentViewModel: GitHubViewModelType?) {
         
         let viewController = DetailViewController()
         
@@ -17,11 +17,21 @@ class DetailFactory {
         
         let viewModel = DetailViewModel(flowController: flowController,swapi: dependence.swapi)
         
+        viewModel.datasource = parentViewModel
         viewController.viewModel = viewModel
-        viewModel.url = url
-
+        navigationController.pushViewController(viewController, animated: true)
+    }
+    
+    static func pushFromDeepLink(navigationController: UINavigationController,dependence: Dependency,url: String?) {
+        
+        let viewController = DetailViewController()
+        
+        let flowController = DetailFlowController(navigationController: navigationController)
+        
+        let viewModel = DetailViewModel(flowController: flowController,swapi: dependence.swapi)
         
         
+        viewController.viewModel = viewModel
         navigationController.pushViewController(viewController, animated: true)
     }
 }
